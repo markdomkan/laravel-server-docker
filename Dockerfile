@@ -44,17 +44,29 @@ RUN apk add --no-cache autoconf make g++ && \
 
 #CONFIGS
 #copying cofings: xdebug nginx php-fpm
-COPY xdebug.ini php-fpm.conf nginx.conf ./
+COPY xdebug.ini php-fpm.conf nginx.conf default.nginx.conf ./
 
-# Feed configs
-RUN mkdir -p /etc/nginx/conf.d/default/ && \
-    mv php-fpm.conf /usr/local/etc/php-fpm.d/zz-docker.conf &&  \
-    mv nginx.conf /etc/nginx/conf.d/default.conf && \
+# Create App user
+RUN adduser -u 1000 -G root -D app && \
+    chown -R app:root /run/nginx/ && \
+    chown -R app:root /var/lib/nginx/ && \
+    chown -R app:root /var/log/nginx/ && \
+    chown -R app:root /var/log/ && \
+    # give permisions to socket dir
+    chown -R app /var/run/ &&\
+    # Feed configs
+    mkdir -p /etc/nginx/conf.d/default/ && \
+    echo "" > /usr/local/etc/php-fpm.d/zz-docker.conf &&  \
+    cat php-fpm.conf > /usr/local/etc/php-fpm.d/www.conf &&  \
+    cat nginx.conf > /etc/nginx/nginx.conf && \
+    mv default.nginx.conf /etc/nginx/conf.d/default.conf && \
     cat xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini  && \
     # remove from here
-    rm -rf xdebug.ini php-fpm.conf nginx.conf
+    rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf
 
-WORKDIR /www
+USER app
+
+WORKDIR /app
 
 EXPOSE 80
 

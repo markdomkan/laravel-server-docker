@@ -3,10 +3,32 @@
 This image contains a all necessary to develop laravel framework
 
 - **php**: 8.0; with **xdebug** on port 9001
-- **node**: 12.x with **yarn**;
+- **node**: 12.x with **yarn**
 - **nginx**
+- default user: **app**
 
-example of docker-compose.yml:
+example of **.vscode/lauch.json** for debug:
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9001,
+            "hostname": "0.0.0.0",
+             "pathMappings": {
+                "/app/": "${workspaceFolder}/",
+            }
+        }
+    ]
+}
+
+```
+
+
+example of **docker-compose.yml**:
 
 ```yml
 version: "3.7"
@@ -17,7 +39,7 @@ services:
     ports:
       - 8000:80
     volumes:
-      - ./:/www
+      - ./:/app
       # optional
       - ./docker/php.ini:/usr/local/etc/php/conf.d/local.ini
       # optional
