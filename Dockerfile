@@ -62,7 +62,9 @@ RUN adduser -u 1000 -G root -D app && \
     mv default.nginx.conf /etc/nginx/conf.d/default.conf && \
     cat xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini  && \
     # remove from here
-    rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf
+    rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf && \
+    chown -R app /app
+
 
 USER app
 
