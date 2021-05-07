@@ -1,11 +1,10 @@
 # Container with all necessary to develop laravel
 
-This image contains a all necessary to develop laravel framework
+This image contains a all necessary to serve laravel framework app in development environment. Is based on [markdomkan/laravel-tools](https://hub.docker.com/r/markdomkan/laravel-tools) image, and contains all of these tools and requirements plus:
 
 - **php**: 8.0; with **xdebug** on port 9001
-- **node**: 12.x with **yarn**
 - **nginx**
-- default user: **app** *(nonroot user)*
+
 
 example of **.vscode/lauch.json** for debug:
 ```json
@@ -26,16 +25,13 @@ example of **.vscode/lauch.json** for debug:
 }
 
 ```
-
-
 example of **docker-compose.yml**:
-
 ```yml
 version: "3.7"
 services:
   app:
     container_name: example-app
-    image: markdomkan/laravel-bundle:php8
+    image: markdomkan/laravel-bundle:php8.0-dev
     ports:
       - 8000:8000
     volumes:
@@ -48,10 +44,10 @@ services:
       - example
     extra_hosts:
       # necessary for xdebug
-      - host.docker.internal: YOUR_LOCAL_IP
+      - host.docker.internal: YOUR_LOCAL_MACHINE_IP
 
   db:
-    image: mysql:8.0.19
+    image: mysql:8.0
     container_name: example-db
     command: --default-authentication-plugin=mysql_native_password
     environment:
