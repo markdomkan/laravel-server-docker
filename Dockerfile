@@ -20,7 +20,7 @@ RUN apk add --no-cache autoconf make g++ && \
     # CONFIGURE
     docker-php-ext-configure intl && \
     # INSTALL EXTENCIONS
-    docker-php-ext-install zip \
+    docker-php-ext-install zip opcache\
     bcmath \
     mysqli \
     pdo_mysql \
