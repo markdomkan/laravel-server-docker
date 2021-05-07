@@ -31,7 +31,7 @@ RUN apk add --no-cache autoconf make g++ && \
 
 #CONFIGS
 #copying cofings: nginx php-fpm
-COPY php-fpm.conf nginx.conf default.nginx.conf ./
+COPY php-fpm.conf nginx.conf default.nginx.conf opcache.ini ./
 
 # Create App user
 RUN adduser -u 1000 -G root -D app && \
@@ -46,8 +46,10 @@ RUN adduser -u 1000 -G root -D app && \
     echo "" > /usr/local/etc/php-fpm.d/zz-docker.conf &&  \
     cat php-fpm.conf > /usr/local/etc/php-fpm.d/www.conf &&  \
     cat nginx.conf > /etc/nginx/nginx.conf && \
+    cat opcache.ini >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini && \
     mv default.nginx.conf /etc/nginx/conf.d/default.conf && \
-    # remove from here
+    # remove config from here
+    rm -rf php-fpm.conf nginx.conf default.nginx.conf opcache.ini && \ 
     mkdir /app && \
     chown -R app /app
 
