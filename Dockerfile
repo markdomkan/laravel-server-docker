@@ -1,13 +1,12 @@
 FROM markdomkan/laravel-tools:php8.0
 
-USER root
-
-#CONFIGS
 #copying cofings: xdebug nginx php-fpm
 COPY xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini ./
 
-# update && install nginx 
-RUN apk update && apk add nginx && \
+# Create App user
+RUN adduser -u 1000 -G root -D app && \
+    # update && install nginx 
+    apk update && apk add nginx && \
     mkdir -p /run/nginx && \
     # forward request and error logs to docker log collector
     ln -sf /dev/stdout /var/log/nginx/access.log && \
@@ -35,7 +34,10 @@ RUN apk update && apk add nginx && \
     cat opcache.ini >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini && \
     cat xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     # remove config files from here
-    rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini
+    rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini && \
+    # gives permisions to app user
+    chown -R app /app
+
 
 USER app
 
