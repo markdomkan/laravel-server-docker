@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:7.4-fpm-alpine
 
 # update && install nginx 
 RUN apk update && apk add nginx && \
