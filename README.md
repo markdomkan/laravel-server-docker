@@ -5,6 +5,7 @@ This image contains a all necessary to serve laravel framework app in developmen
 - **php**: (config your version with --build-arg PHP_VERSION); with **xdebug** on port 9001
 - **nginx**: for serve your app
 
+> Use make for generate all versions
 
 example of **.vscode/lauch.json** for debug:
 ```json

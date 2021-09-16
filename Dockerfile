@@ -6,8 +6,6 @@ COPY xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini ./
 
 # Create App user
 RUN adduser -u 1000 -G root -D app && \
-    # set zsh as default shell
-    sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd && \
     # update && install nginx 
     apk update && apk add nginx && \
     mkdir -p /run/nginx && \
@@ -40,6 +38,14 @@ RUN adduser -u 1000 -G root -D app && \
     rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini && \
     # gives permisions to app user
     chown -R app /app
+
+USER app
+
+RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.1/zsh-in-docker.sh)"
+
+USER root
+
+RUN sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd
 
 USER app
 
