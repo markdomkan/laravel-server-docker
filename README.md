@@ -2,7 +2,7 @@
 
 This image contains a all necessary to set laravel framework in production
 
-- **php**: 8.0
+- **php**: select the php version to use with --build-arg PHP_VERSION=x.x
 - **nginx**
 - default user: **app** *(nonroot user)*
 - php extencions
