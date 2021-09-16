@@ -36,7 +36,9 @@ RUN adduser -u 1000 -G root -D app && \
     cat xdebug.ini >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     # remove config files from here
     rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini && \
-    # gives permisions to app user
+    # creates vendor and node_modules folders and gives permisions to app user
+    mkdir -p /app/vendor/ && \
+    mkdir -p /app/node_modules/ && \
     chown -R app /app
 
 USER app
