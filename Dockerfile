@@ -1,10 +1,13 @@
-FROM markdomkan/laravel-tools:php8.0
+ARG PHP_VERSION
+FROM markdomkan/laravel-tools:php${PHP_VERSION}
 
 #copying cofings: xdebug nginx php-fpm
 COPY xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini ./
 
 # Create App user
 RUN adduser -u 1000 -G root -D app && \
+    # set zsh as default shell
+    sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd && \
     # update && install nginx 
     apk update && apk add nginx && \
     mkdir -p /run/nginx && \
@@ -37,7 +40,6 @@ RUN adduser -u 1000 -G root -D app && \
     rm -rf xdebug.ini php-fpm.conf nginx.conf default.nginx.conf opcache.ini && \
     # gives permisions to app user
     chown -R app /app
-
 
 USER app
 

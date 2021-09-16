@@ -2,8 +2,8 @@
 
 This image contains a all necessary to serve laravel framework app in development environment. Is based on [markdomkan/laravel-tools](https://hub.docker.com/r/markdomkan/laravel-tools) image, and contains all of these tools and requirements plus:
 
-- **php**: 8.0; with **xdebug** on port 9001
-- **nginx**
+- **php**: (config your version with --build-arg PHP_VERSION); with **xdebug** on port 9001
+- **nginx**: for serve your app
 
 
 example of **.vscode/lauch.json** for debug:
@@ -25,7 +25,7 @@ example of **.vscode/lauch.json** for debug:
 }
 
 ```
-example of **docker-compose.yml**:
+example of full **docker-compose.yml**:
 ```yml
 version: "3.7"
 services:
