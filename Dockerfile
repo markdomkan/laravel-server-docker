@@ -17,8 +17,6 @@ RUN adduser -u 1000 -G root -D app && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug  && \
     docker-php-ext-install zip opcache &&\
-    # Remove builder depencences
-    apk del --no-cache autoconf make g++ && \
     # Give permisions on App user
     chown -R app:root /run/nginx/ && \
     chown -R app:root /var/lib/nginx/ && \
